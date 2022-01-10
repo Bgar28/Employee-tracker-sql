@@ -68,17 +68,31 @@ function start() {
 };
 
 const viewAllDepartments = () => {
-    console.log(queries.selectAllDepartments)
     db.query(queries.selectAllDepartments, function (err, data) {
-        if (err) { console.log('Something went wrong, try again', err); return }
+        if (err) { 
+            console.log('Something went wrong, try again', err) 
+            return 
+        }
         console.table(data)
     })
 };
 
 const viewAllRoles = () => {
-    console.log(queries.selectAllDepartments)
     db.query(queries.selectAllRoles, function (err, data) {
-        if (err) { console.log('Something went wrong, try again', err); return }
+        if (err) { 
+            console.log('Something went wrong, try again', err) 
+            return 
+        }
+        console.table(data)
+    })
+};
+
+const viewAllEmployees = () => {
+    db.query(queries.selectAllEmployees, function (err, data) {
+        if (err) { 
+            console.log('Something went wrong, try again', err) 
+            return 
+        }
         console.table(data)
     })
 
@@ -98,7 +112,7 @@ const addADepartment = () => {
                     console.log('Something went wrong, try again', err)
                     return
                 }
-                db.query('select * from department;', function(err, data){
+                db.query('select * from department;', function (err, data) {
                     if (err) {
                         console.log('Something went wrong, try again', err)
                         return
