@@ -65,5 +65,12 @@ function start() {
 
         })
 
-}
+};
 
+const viewAllDepartments = () => {
+    console.log(queries.selectAllDepartments)
+    db.query(queries.selectAllDepartments, function (err, data) {
+        if (err) { console.log('something went wrong, try again', err); return }
+        console.table(data)
+    })
+};
