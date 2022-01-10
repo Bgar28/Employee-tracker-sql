@@ -74,3 +74,28 @@ const viewAllDepartments = () => {
         console.table(data)
     })
 };
+
+const addADepartment = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter the name of the department you would like to add!',
+            name: 'department'
+        }
+    ])
+        .then(({ department }) => {
+            db.query(queries.addADepartment(department), function (err, data) {
+                if (err) {
+                    console.log('something went wrong, try again', err)
+                    return
+                }
+                db.query('select * from department;', function(err, data){
+                    if (err) {
+                        console.log('something went wrong, try again', err)
+                        return
+                    }
+                    console.table(data)
+                })
+            })
+        })
+};
