@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const logo = require('asciiart-logo');
 const pkg = require('./package.json');
-const queries = require('./queries')
+const queries = require('./queries');
 require('console.table');
 
 const db = mysql.createConnection(
@@ -24,7 +24,7 @@ db.connect(err => {
     start()
 });
 
-// User is prompted with the following options: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
+// User is prompted with the following options: view all departments, view all roles, view all employees, add a department, add a role, add an employee, update an employee role and quit.
 function start() {
     inquirer.prompt([
         {
@@ -49,7 +49,7 @@ function start() {
                     addADepartment()
                     break;
                 case 'Add A Role':
-                    addARoles()
+                    addARole()
                     break;
                 case 'Add An Employee':
                     addAnEmployee()
@@ -74,6 +74,7 @@ const viewAllDepartments = () => {
             return 
         }
         console.table(data)
+        start()
     })
 };
 
@@ -84,6 +85,7 @@ const viewAllRoles = () => {
             return 
         }
         console.table(data)
+        start()
     })
 };
 
@@ -94,6 +96,7 @@ const viewAllEmployees = () => {
             return 
         }
         console.table(data)
+        start()
     })
 
 };
@@ -117,8 +120,51 @@ const addADepartment = () => {
                         console.log('Something went wrong, try again', err)
                         return
                     }
-                    console.table(data)
+                    viewAllDepartments()
                 })
             })
         })
 };
+
+const addARole = () => {
+    db.query('select * from department;', function (err, data) {
+        if (err) {
+            console.log('Something went wrong, try again', err)
+            return
+        }
+        const departmentObj = data.map(({dept_name, id}) => {
+            return {name: dept_name, value: id}
+        })
+    
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter the name of the role you would like to add!',
+            name: 'role'
+        },
+        {
+            type: "input",
+            message: "What is the salary of this role?",
+            name: "salary"
+        },
+        {
+            type: "list",
+            message: "Which department does this role belong to?",
+            name: "role_department",
+            choices: departmentObj
+        }
+
+    ])
+        .then(roleResponses => {
+            db.query(queries.sqlRoleAdd(roleResponses.role, Number(roleResponses.salary), roleResponses.role_department), function (err, data){
+                if (err) {
+                    console.log('Something went wrong, try again', err)
+                    return
+                }
+                viewAllRoles()
+            })
+        })
+    })
+
+};
+
