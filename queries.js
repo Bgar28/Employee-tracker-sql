@@ -10,7 +10,11 @@ const addADepartment = (department) => {
 
 const sqlRoleAdd = (role, salary, role_department) => {
     return `INSERT INTO roles (title, salary, department_id) VALUES ('${role}', '${salary}', '${role_department}');`
-}
+};
+
+const sqlEmployeeAdd = (first_name, last_name, employee_role, employee_manager) => {
+    return `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${first_name}', '${last_name}', '${employee_role}', '${employee_manager}');`
+};
 
 
 module.exports = {
@@ -18,5 +22,6 @@ module.exports = {
     addADepartment,
     selectAllRoles,
     selectAllEmployees,
-    sqlRoleAdd
+    sqlRoleAdd,
+    sqlEmployeeAdd
 }

@@ -69,9 +69,9 @@ function start() {
 
 const viewAllDepartments = () => {
     db.query(queries.selectAllDepartments, function (err, data) {
-        if (err) { 
-            console.log('Something went wrong, try again', err) 
-            return 
+        if (err) {
+            console.log('Something went wrong, try again', err)
+            return
         }
         console.table(data)
         start()
@@ -80,9 +80,9 @@ const viewAllDepartments = () => {
 
 const viewAllRoles = () => {
     db.query(queries.selectAllRoles, function (err, data) {
-        if (err) { 
-            console.log('Something went wrong, try again', err) 
-            return 
+        if (err) {
+            console.log('Something went wrong, try again', err)
+            return
         }
         console.table(data)
         start()
@@ -91,9 +91,9 @@ const viewAllRoles = () => {
 
 const viewAllEmployees = () => {
     db.query(queries.selectAllEmployees, function (err, data) {
-        if (err) { 
-            console.log('Something went wrong, try again', err) 
-            return 
+        if (err) {
+            console.log('Something went wrong, try again', err)
+            return
         }
         console.table(data)
         start()
@@ -132,39 +132,96 @@ const addARole = () => {
             console.log('Something went wrong, try again', err)
             return
         }
-        const departmentObj = data.map(({dept_name, id}) => {
-            return {name: dept_name, value: id}
+        const departmentObj = data.map(({ dept_name, id }) => {
+            return { name: dept_name, value: id }
         })
-    
-    inquirer.prompt([
-        {
-            type: 'input',
-            message: 'Enter the name of the role you would like to add!',
-            name: 'role'
-        },
-        {
-            type: "input",
-            message: "What is the salary of this role?",
-            name: "salary"
-        },
-        {
-            type: "list",
-            message: "Which department does this role belong to?",
-            name: "role_department",
-            choices: departmentObj
-        }
 
-    ])
-        .then(roleResponses => {
-            db.query(queries.sqlRoleAdd(roleResponses.role, Number(roleResponses.salary), roleResponses.role_department), function (err, data){
-                if (err) {
-                    console.log('Something went wrong, try again', err)
-                    return
-                }
-                viewAllRoles()
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: 'Enter the name of the role you would like to add!',
+                name: 'role'
+            },
+            {
+                type: "input",
+                message: "What is the salary of this role?",
+                name: "salary"
+            },
+            {
+                type: "list",
+                message: "Which department does this role belong to?",
+                name: "role_department",
+                choices: departmentObj
+            }
+
+        ])
+            .then(roleResponses => {
+                db.query(queries.sqlRoleAdd(roleResponses.role, Number(roleResponses.salary), roleResponses.role_department), function (err, data) {
+                    if (err) {
+                        console.log('Something went wrong, try again', err)
+                        return
+                    }
+                    viewAllRoles()
+                })
             })
-        })
     })
 
 };
 
+const addAnEmployee = () => {
+    db.query('select title from roles;', function (err, data) {
+        if (err) {
+            console.log('Something went wrong, try again', err)
+            return
+        }
+        const rolesObj = data.map(({ title, id }) => {
+            return { name: title, value: id }
+        })
+
+        db.query('select first_name, last_name from employees;', function (err, data) {
+            if (err) {
+                console.log('Something went wrong, try again', err)
+                return
+            }
+            const employeesObj = data.map(({ first_name, last_name, id }) => {
+                return { name: first_name, last_name, value: id }
+            })
+
+
+
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "What is the employee's first name?",
+                    name: "first_name"
+                },
+                {
+                    type: "input",
+                    message: "what is the employee's last name?",
+                    name: "last_name"
+                },
+                {
+                    type: "list",
+                    message: "What is the employee's role?",
+                    name: "employee_role",
+                    choices: rolesObj
+                },
+                {
+                    type: "list",
+                    message: "Who is the employee's manager?",
+                    name: "employee_manager",
+                    choices: employeesObj
+                },
+            ])
+                .then(employeeResponses => {
+                    db.query(queries.sqlEmployeeAdd(employeeResponses.first_name, employeeResponses.last_name, employeeResponses.employee_role, employeeResponses.employee_manager)), function (err, data) {
+                        if (err) {
+                            console.log('Something went wrong, try again', err)
+                            return
+                        }
+                    }
+                    viewAllEmployees()
+                })
+        })
+    })
+}
