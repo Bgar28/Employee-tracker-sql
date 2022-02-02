@@ -169,7 +169,7 @@ const addARole = () => {
 };
 
 const addAnEmployee = () => {
-    db.query('select title from roles;', function (err, data) {
+    db.query('select id, title from roles;', function (err, data) {
         if (err) {
             console.log('Something went wrong, try again', err)
             return
@@ -178,13 +178,13 @@ const addAnEmployee = () => {
             return { name: title, value: id }
         })
 
-        db.query('select first_name, last_name from employees;', function (err, data) {
+        db.query('select id, first_name, last_name from employees;', function (err, data) {
             if (err) {
                 console.log('Something went wrong, try again', err)
                 return
             }
             const employeesObj = data.map(({ first_name, last_name, id }) => {
-                return { name: first_name, last_name, value: id }
+                return { name: `${first_name} ${last_name}`, value: id }
             })
 
 
