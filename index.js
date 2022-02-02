@@ -101,6 +101,7 @@ const viewAllEmployees = () => {
 
 };
 
+// grab the user's input for a new department and add to the departments table
 const addADepartment = () => {
     inquirer.prompt([
         {
@@ -126,6 +127,7 @@ const addADepartment = () => {
         })
 };
 
+// grab the user's input for a new role, salary, and that respective department and add to the roles table via query
 const addARole = () => {
     db.query('select * from department;', function (err, data) {
         if (err) {
@@ -168,6 +170,7 @@ const addARole = () => {
 
 };
 
+// grab the user's input for a new employee of first/last name, role and their respective manager and add to the employees table via query
 const addAnEmployee = () => {
     db.query('select id, title from roles;', function (err, data) {
         if (err) {
@@ -186,6 +189,12 @@ const addAnEmployee = () => {
             const employeesObj = data.map(({ first_name, last_name, id }) => {
                 return { name: `${first_name} ${last_name}`, value: id }
             })
+
+            const noManagerObj = {
+                name: "Manager not listed", value: null
+            }
+
+            employeesObj.push(noManagerObj)
 
 
 
@@ -223,5 +232,55 @@ const addAnEmployee = () => {
                     viewAllEmployees()
                 })
         })
+    })
+}
+
+// grab the selected employee and their role id to update their role via query with the users input
+const updateAnEmployeeRole = () => {
+    db.query('select id, first_name, last_name from employees;', function (err, data) {
+        if (err) {
+            console.log('Something went wrong, try again', err)
+            return
+        }
+        const employeesObj = data.map(({ first_name, last_name, id }) => {
+            return { name: `${first_name} ${last_name}`, value: id }
+        })
+
+        db.query('select id, title from roles;', function (err, data) {
+            if (err) {
+                console.log('Something went wrong, try again', err)
+                return
+            }
+            const rolesObj = data.map(({ title, id }) => {
+                return { name: title, value: id }
+            })
+            inquirer.prompt([
+                {
+                    type: "list",
+                    message: "Which employee's role would you like to update?",
+                    name: "target_employee",
+                    choices: employeesObj
+                },
+                {
+                    type: "list",
+                    message: "What is the new role of this employee?",
+                    name: "new_role",
+                    choices: rolesObj
+                }
+            ])
+            .then( answers => {
+                db.query(queries.updateEmployeeRole(answers.target_employee, answers.new_role), function (err, data) {
+                    if (err) {
+                        console.log('Something went wrong, try again', err)
+                        return
+                    }
+                    viewAllEmployees()
+                })
+            })
+
+        })
+
+
+
     })
 }
