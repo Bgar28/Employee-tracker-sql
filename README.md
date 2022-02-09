@@ -76,10 +76,11 @@ node index.js
 ```
   ## Usage
 
-  This application utilizes Node.js, Inquirer and MySQL. Below, I have added screenshots of when the user selects the options of "View All Departments", "View All Roles", and "View All Employees". <br/>
-  ![screenshot](https://github.com/Bgar28/Note-taker/blob/main/public/assets/screenshot1.png) <br/>
-  ![screenshot](https://github.com/Bgar28/Note-taker/blob/main/public/assets/screenshot2.png) <br/>
-  ![screenshot](https://github.com/Bgar28/Note-taker/blob/main/public/assets/screenshot3.png)
+  This application utilizes Node.js, Inquirer and MySQL. Below, I have added a video walkthrough and screenshots of when the user selects the options of "View All Departments", "View All Roles", and "View All Employees". <br>
+  https://watch.screencastify.com/v/5o9GgxqixJmLFAKDL18h <br>
+  ![screenshot](https://github.com/Bgar28/Employee-tracker-sql/blob/main/assets/departments.png) <br>
+  ![screenshot](https://github.com/Bgar28/Employee-tracker-sql/blob/main/assets/roles.png) <br>
+  ![screenshot](https://github.com/Bgar28/Employee-tracker-sql/blob/main/assets/employees.png)
 
 
   ## License
@@ -91,10 +92,10 @@ node index.js
 
   Any questions or concerns, please contact me via the information provided below:
 
-  Github: Bgar28 <br/> https://github.com/Bgar28/ <br/>
+  Github: Bgar28 <br> https://github.com/Bgar28/ <br>
   ![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 
   Or
 
-  Email: briangarlandk@gmail.com <br/>
+  Email: briangarlandk@gmail.com <br>
   ![GMAIL](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
