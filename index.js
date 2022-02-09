@@ -191,7 +191,7 @@ const addAnEmployee = () => {
             })
 
             const noManagerObj = {
-                name: "Manager not listed", value: null
+                name: "Manager not listed!", value: 0 
             }
 
             employeesObj.push(noManagerObj)
