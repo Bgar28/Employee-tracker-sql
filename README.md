@@ -17,62 +17,24 @@ Clone this repository and install the depencies by running: <br>
 ```
 npm install
 ```
-Then create the database by running the schema.sql and give it employee information by running seeds.sql file inside of your SQL terminal.
-
+Then create the database by running the schema.sql file inside of your SQL terminal. 
 ```
-DROP DATABASE IF EXISTS employee_db;
-CREATE DATABASE employee_db;
-
-USE employee_db;
-
-CREATE TABLE department (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    dept_name VARCHAR(30) NOT NULL
-);
-
-CREATE TABLE roles (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(30) NOT NULL,
-    salary INT NOT NULL,
-    department_id INT,
-    FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL
-);
-
-CREATE TABLE employees (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(30) NOT NULL,
-    last_name VARCHAR(30) NOT NULL,
-    role_id INT,
-    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
-    manager_id INT, 
-    CONSTRAINT fk_employee FOREIGN KEY (manager_id) REFERENCES employees(id) 
-);
+SOURCE db/schema.sql
 ```
-```
-INSERT INTO department (dept_name)
-VALUES ("Purchasing"),
-       ("Human Resources"),
-       ("Sales"),
-       ("IT");
- 
 
-INSERT INTO roles (title, salary, department_id)
-VALUES ("HR Manager", 75000, 2),
-       ("Procurement Analyst", 63000, 1),
-       ("Software Engineer", 90000, 4),
-       ("Account Executive", 83000, 3), 
-       ("System Administrator", 95000, 4);
-
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Kobe", "Bryant", 4, null),
-       ("Lebron", "James", 3, null),
-       ("Allen", "Iverson", 2, null),
-       ("Steph", "Curry", 1, null), 
-       ("Klay", "Thompson", 5, null);
+To give the database employee information run the seeds.sql file inside of your SQL terminal.
 ```
+SOURCE db/seeds.sql
+```
+
 Once the database is created, you can start the application by running:
 ```
 node index.js
+```
+
+Or
+```
+npm start
 ```
   ## Usage
 
